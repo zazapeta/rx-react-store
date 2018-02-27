@@ -1,0 +1,25 @@
+RxStore:
+  ☐ NPM publish
+  ☐ Tests
+  ☐ Git
+  ☐ Documentation
+  ☐ TodoMVC.com
+  ☐ Samples
+  ☐ Rollup
+  ☐ defaultMapStoreToProps -> (state, props) => ({ ...state, ...props }) 
+  Hooks/Middlewares: 
+    #(async || sync)(global || local)(before || after)(each || all)
+    Thread :
+      ☐ Async
+      ☐ Sync
+    Scope : 
+      ☐ Local
+      ☐ Global
+    Moment :
+      ☐ before
+      ☐ after
+    Action : 
+      ☐ each
+      ☐ all
+  
+  
