@@ -8,23 +8,26 @@ describe('RxStore', () => {
     expect(store instanceof RxStore).toBe(true);
   });
 
-  test('should initialize with correct namespace', () => {
+  test('should initialize with correct namespace and {} initial state', () => {
     let ns = 'Users';
-    let store = new RxStore(ns);
+    let store = new RxStore({ ns });
     expect(store.namespace).toBe(ns);
+    expect(store.state).toEqual({});
   });
 
-  test('should intialize with initialState', () => {
+  test('should intialize with initialState and namespace', () => {
+    let ns = 'Users';
     let initialState = {
       users: [{ name: 'jhon' }],
     };
-    let store = new RxStore('Users', initialState);
+    let store = new RxStore({ ns, initialState });
     expect(store.state).toBe(initialState);
+    expect(store.namespace).toBe(ns);
   });
 
   test('should connect a functional component and get rxConnected(...) name', () => {
     let ns = 'Users';
-    let store = new RxStore(ns);
+    let store = new RxStore({ ns });
 
     let Dumb = () => <div />;
     let connectedDumb = store.connect((state) => state)(Dumb);
@@ -35,7 +38,7 @@ describe('RxStore', () => {
 
   test('should connect a component and get rxConnected(...) name', () => {
     let ns = 'Users';
-    let store = new RxStore(ns);
+    let store = new RxStore({ ns });
 
     class Dumb extends React.Component {
       render() {

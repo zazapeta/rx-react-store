@@ -1,6 +1,6 @@
 import React from 'react';
 import { Subject } from 'rxjs';
-import {getComponentName} from './utils';
+import { getComponentName } from './utils';
 
 // let MIDDLEWARES = [];
 
@@ -9,7 +9,7 @@ import {getComponentName} from './utils';
 // }
 
 class RxStore {
-  constructor(ns = 'rxStore', initialState = {}) {
+  constructor({ ns = 'rxStore', initialState = {} } = {}) {
     this._state = initialState;
     this._ns = ns;
     this._subject = new Subject();
@@ -67,7 +67,7 @@ class RxStore {
           super(props);
           this.state = thisStore.state;
           __subscriber = thisStore.subject.subscribe({
-            next: (state) => this.setState(state)
+            next: (state) => this.setState(state),
           });
         }
 
@@ -84,7 +84,9 @@ class RxStore {
           );
         }
       }
-      ConnectedComponent.displayName = `[${thisStore.namespace}]rxConnected(${getComponentName(BaseComponent)})`;
+      ConnectedComponent.displayName = `[${
+        thisStore.namespace
+      }]rxConnected(${getComponentName(BaseComponent)})`;
       return ConnectedComponent;
     };
   }
