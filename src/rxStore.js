@@ -29,16 +29,16 @@ class RxStore {
   //   return addGlobalMiddleware(mw);
   // }
 
-  // save() {
-  //   localStorage.setItem(this._ns, JSON.stringify(this._state));
-  //   return this;
-  // }
+  save() {
+    localStorage.setItem(this._ns, JSON.stringify(this._state));
+    return this;
+  }
 
-  // load() {
-  //   let ls = localStorage.getItem(this._ns);
-  //   this._state = (ls && JSON.parse(ls)) || this._state;
-  //   return this;
-  // }
+  load() {
+    let ls = localStorage.getItem(this._ns);
+    this._state = (ls && JSON.parse(ls)) || this._state;
+    return this;
+  }
 
   get subject() {
     return this._subject;
@@ -52,7 +52,7 @@ class RxStore {
   //   this._middlewares.push(mw);
   // }
 
-  dispatch(action) {
+  dispatch(action = (state) => state) {
     // MIDDLEWARES.forEach((mw) => mw(this, action));
     // this._middlewares.forEach((mw) => mw(this, action));
     this._subject.next(action(this.state));
