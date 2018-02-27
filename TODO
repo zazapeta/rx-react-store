@@ -5,7 +5,7 @@ RxStore:
   ☐ Documentation
   ☐ TodoMVC.com
   ☐ Samples
-  ☐ Rollup
+  ☐ Babel 7
   ☐ defaultMapStoreToProps -> (state, props) => ({ ...state, ...props }) 
   Hooks/Middlewares: 
     #(async || sync)(global || local)(before || after)(each || all)

@@ -1,12 +1,15 @@
 {
-  "name": "rx-react-store",
-  "version": "0.0.1",
+  "name": "@zazapeta/rx-react-store",
+  "version": "0.0.5",
   "description": "A tiny store powered by RxJs configured to work with React",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "pretty": "pretty-quick --staged"
+    "pretty": "pretty-quick --staged",
+    "build": "babel --minified --ignore '**.test.js' src -d lib",
+    "prepublish": "npm run build",
+    "t:b:p": "npm run test && npm run build && npm publish --access=public"
   },
   "repository": {
     "type": "git",
@@ -19,22 +22,25 @@
     "url": "https://github.com/zazapeta/rx-react-store/issues"
   },
   "homepage": "https://github.com/zazapeta/rx-react-store#readme",
-  "dependencies": {
+  "peerDependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "rxjs": "^5.5.6"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
-    "@babel/preset-react": "^7.0.0-beta.40",
-    "babel-core": "^7.0.0-bridge.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-jest": "^22.4.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
     "husky": "^0.15.0-rc.8",
     "jest": "^22.4.0",
     "prettier": "^1.11.0",
     "pretty-quick": "^1.4.1",
-    "regenerator-runtime": "^0.11.1"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "regenerator-runtime": "^0.11.1",
+    "rxjs": "^5.5.6"
   },
   "husky": {
     "hooks": {

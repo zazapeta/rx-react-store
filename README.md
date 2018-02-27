@@ -11,13 +11,13 @@ These instructions will get you a copy of the project up and running on your loc
 ## Installing
 
 ```
-npm i rx-react-store
+npm i @zazapeta/rx-react-store
 ```
 
 And in App.store.js
 
 ```
-import RxStore from 'rx-react-store';
+import RxStore from '@zazapeta/rx-react-store';
 
 // For debugging purpose
 const ns = 'App';

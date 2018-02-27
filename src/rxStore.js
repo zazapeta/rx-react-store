@@ -40,9 +40,9 @@ class RxStore {
   //   return this;
   // }
 
-  // get subject() {
-  //   return this._subject;
-  // }
+  get subject() {
+    return this._subject;
+  }
 
   // get middlewares(){
   //   return this._middlewares;
