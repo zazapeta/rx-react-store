@@ -16,7 +16,7 @@ describe('RxStore', () => {
 
   test('should intialize with initialState', () => {
     let initialState = {
-      users: [{ name: 'jhon' }]
+      users: [{ name: 'jhon' }],
     };
     let store = new RxStore('Users', initialState);
     expect(store.state).toBe(initialState);
@@ -29,7 +29,7 @@ describe('RxStore', () => {
     let Dumb = () => <div />;
     let connectedDumb = store.connect((state) => state)(Dumb);
     expect(connectedDumb.displayName).toBe(
-      `[${ns}]rxConnected(${getComponentName(Dumb)})`
+      `[${ns}]rxConnected(${getComponentName(Dumb)})`,
     );
   });
 
@@ -45,7 +45,7 @@ describe('RxStore', () => {
 
     let connectedDumb = store.connect((state) => state)(Dumb);
     expect(connectedDumb.displayName).toBe(
-      `[${ns}]rxConnected(${getComponentName(Dumb)})`
+      `[${ns}]rxConnected(${getComponentName(Dumb)})`,
     );
   });
 });

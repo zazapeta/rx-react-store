@@ -1,17 +1,34 @@
-# Project Title
+# RX-REACT-STORE
 
-One Paragraph of project description goes here
+A tiny implementation of connected to gloabl/scoped store based on the awesome [RxJs](http://reactivex.io/rxjs/)'s implementation of the observer/observable pattern.
+
+The purpose of this project is to familiarise myself to publish my first open source lib for npm based on github repo :)
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-### Prerequisites
+### Contributing
 
-What things you need to install the software and how to install them
+#### Code of conduct
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+#### Workflow
+
+Hard use of (Git Flow)[https://danielkummer.github.io/git-flow-cheatsheet/].
+
+#### Prerequisites
+
+• npm
+• git
+• prettier
 
 ```
-Give examples
+git clone git@github.com:zazapeta/rx-react-store.git
+cd rx-react-store
+npm i
+npm run test:watch
 ```
 
 ### Installing
@@ -64,15 +81,13 @@ Add additional notes about how to deploy this on a live system
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+* **Billie Thompson** - _Initial work_ - [PurpleBooth](https://github.com/PurpleBooth)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
