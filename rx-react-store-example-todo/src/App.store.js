@@ -7,4 +7,10 @@ const initialState = {
 
 const ns = 'App';
 
-export default new RxStore({ ns, initialState });
+let appStore = new RxStore({ ns, initialState });
+
+appStore.AfterGlobalParalel.set('InfoLogger', (state, action) =>
+  console.info(`[${action.name}] STATE:`, state),
+);
+
+export default appStore;

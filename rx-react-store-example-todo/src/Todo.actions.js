@@ -1,43 +1,14 @@
 import todoStore from './Todo.store';
 
+// action + state-reducer
+const changeTodo = (state, todo, content) => ({
+  ...state,
+  todos: state.todos.map((t) => (t.id === todo.id ? { ...todo, content } : t)),
+});
+
+// action dispatcher
 export function handleTodoChange(todo, content) {
-  todo.content = content;
-  todoStore.dispatch((state) => ({ ...state }));
-}
-
-export function handleTodoAdd(content) {
-  let todoContent = content.trim();
-  if (todoContent === '') {
-    return;
-  }
-  todoStore.dispatch((state) => ({
-    ...state,
-    todos: state.todos.concat(createTodo(todoContent)),
-  }));
-}
-
-export function handleTodoOpen(todo) {
-  todo.isOpen = true;
-  todoStore.dispatch((state) => ({ ...state }));
-}
-
-export function handleTodoClose(todo) {
-  todo.isOpen = false;
-  todoStore.dispatch((state) => ({ ...state }));
-}
-
-export function handleTodoDelete(todo) {
-  todoStore.dispatch((state) => {
-    return {
-      ...state,
-      todos: state.todos.filter((t) => t.id !== todo.id),
-    };
-  });
-}
-
-export function handleTodoToggle(todo, isDone) {
-  todo.isDone = isDone;
-  todoStore.dispatch((state) => ({ ...state }));
+  todoStore.dispatch(changeTodo);
 }
 
 function createTodo(content = '') {
@@ -47,4 +18,57 @@ function createTodo(content = '') {
     isOpen: false,
     isDone: false,
   };
+}
+
+const addTodo = (state, content) => ({
+  ...state,
+  todos: state.todos.concat(createTodo(content)),
+});
+
+export function handleTodoAdd(content) {
+  let todoContent = content.trim();
+  if (todoContent === '') {
+    return;
+  }
+  todoStore.dispatch(addTodo, todoContent);
+}
+
+const openTodo = (state, todo) => ({
+  ...state,
+  todos: state.todos.map(
+    (t) => (t.id === todo.id ? { ...todo, isOpen: true } : t),
+  ),
+});
+
+export function handleTodoOpen(todo) {
+  todoStore.dispatch(openTodo, todo);
+}
+
+const closeTodo = (state, todo) => ({
+  ...state,
+  todos: state.todos.map(
+    (t) => (t.id === todo.id ? { ...todo, isOpen: false } : t),
+  ),
+});
+
+export function handleTodoClose(todo) {
+  todoStore.dispatch(closeTodo, todo);
+}
+
+const deleteTodo = (state, todo) => ({
+  ...state,
+  todos: state.todos.filter((t) => t.id !== todo.id),
+});
+
+export function handleTodoDelete(todo) {
+  todoStore.dispatch(deleteTodo, todo);
+}
+
+const todoToggle = (state, todo, isDone) => ({
+  ...state,
+  todos: state.todos.map((t) => (t.id === todo.id ? { ...todo, isDone } : t)),
+});
+
+export function handleTodoToggle(todo, isDone) {
+  todoStore.dispatch(todoToggle, todo, isDone);
 }

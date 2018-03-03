@@ -58,16 +58,21 @@ class RxStore {
     return this._subject;
   }
 
-  async dispatch(action = (state) => state) {
-    await promiseAllMap(BeforeGlobalParalel, this.state);
-    await promiseAllMap(this.BeforeLocalParalel, this.state);
-    await promiseSeqMap(BeforeGlobalSequential, this.state);
-    await promiseSeqMap(this.BeforeLocalSequential, this.state);
-    this._subject.next(action(this.state));
-    await promiseAllMap(AfterGlobalParalel, this.state);
-    await promiseAllMap(this.AfterLocalParalel, this.state);
-    await promiseSeqMap(AfterGlobalSequential, this.state);
-    await promiseSeqMap(this.AfterLocalSequential, this.state);
+  async dispatch(action = (state) => state, ...rest) {
+    await promiseAllMap(BeforeGlobalParalel, this.state, action, ...rest);
+    await promiseAllMap(this.BeforeLocalParalel, this.state, action, ...rest);
+    await promiseSeqMap(BeforeGlobalSequential, this.state, action, ...rest);
+    await promiseSeqMap(
+      this.BeforeLocalSequential,
+      this.state,
+      action,
+      ...rest,
+    );
+    this._subject.next(action(this.state, ...rest));
+    await promiseAllMap(AfterGlobalParalel, this.state, action, ...rest);
+    await promiseAllMap(this.AfterLocalParalel, this.state, action, ...rest);
+    await promiseSeqMap(AfterGlobalSequential, this.state, action, ...rest);
+    await promiseSeqMap(this.AfterLocalSequential, this.state, action, ...rest);
   }
 
   connect(mapStoreToProps) {
