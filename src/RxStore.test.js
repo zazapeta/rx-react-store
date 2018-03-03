@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import sinon from 'sinon';
 
 import setup from './setup_test';
 import RxStore from './RxStore';
@@ -59,7 +60,7 @@ describe('RxStore constructor connect', () => {
 });
 
 describe('RxStore dispatch', () => {
-  test('should change the state of connected comp after a dispatch', () => {
+  test('should change the state of connected comp after a dispatch', async () => {
     let ns = 'Users';
     let initialState = {
       users: [],
@@ -80,7 +81,7 @@ describe('RxStore dispatch', () => {
 
     expect(wrapper.state()).toEqual(store.state);
 
-    store.dispatch((state) => ({
+    await store.dispatch((state) => ({
       ...state,
       users: state.users.concat('Skywalker'),
     }));
@@ -89,5 +90,35 @@ describe('RxStore dispatch', () => {
       ...store.state,
       users: ['Skywalker'],
     });
+  });
+
+  test('should call all hooks middlewares  with a dispatch', async () => {
+    let hooks = [
+      'BeforeGlobalParalel', // Promise.all
+      'BeforeLocalParalel', // Promise.all
+      'BeforeGlobalSequential', // for in
+      'BeforeLocalSequential', // for in
+      'AfterGlobalParalel',
+      'AfterLocalParalel',
+      'AfterGlobalSequential',
+      'AfterLocalSequential',
+    ];
+    let ns = 'Users';
+    let initialState = {
+      users: [],
+    };
+    let store = new RxStore({ ns, initialState });
+
+    let callstack = [];
+    let spiedHooks = hooks.map((h) =>
+      sinon.stub().callsFake(() => callstack.push(h)),
+    );
+    hooks.forEach((h, i) => store[h].set(i, spiedHooks[i]));
+    await store.dispatch((state) => state);
+    expect(callstack).toEqual(hooks);
+    spiedHooks.forEach((spy) => expect(spy.calledOnce).toBe(true));
+    spiedHooks.forEach((spy) =>
+      expect(spy.firstCall.args[0]).toEqual(store.state),
+    ); // as the state doesnt be changed
   });
 });

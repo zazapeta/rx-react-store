@@ -8,19 +8,16 @@ RxStore:
   ☐ Babel 7
   ☐ defaultMapStoreToProps -> (state, props) => ({ ...state, ...props }) 
   Hooks/Middlewares: 
-    #(async || sync)(global || local)(before || after)(each || all)
+    #(async || sync)(global || local)(before || after)
     Thread :
-      ☐ Async
-      ☐ Sync
+      ☐ Paralel
+      ☐ Linear
     Scope : 
       ☐ Local
       ☐ Global
     Moment :
       ☐ before
       ☐ after
-    Action : 
-      ☐ each
-      ☐ all
   
   
 

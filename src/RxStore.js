@@ -1,12 +1,28 @@
 import React from 'react';
 import { Subject } from 'rxjs';
-import { getComponentName } from './utils';
+import { getComponentName, promiseAllMap, promiseSeqMap } from './utils';
 
-// let MIDDLEWARES = [];
+let hooks = [
+  'BeforeGlobalParalel', // Promise.all
+  'BeforeLocalParalel', // Promise.all
+  'BeforeGlobalSequential', // for in
+  'BeforeLocalSequential', // for in
+  'AfterGlobalParalel',
+  'AfterLocalParalel',
+  'AfterGlobalSequential',
+  'AfterLocalSequential',
+];
 
-// export function addGlobalMiddleware(mw){
-//   return MIDDLEWARES.push(mw);
-// }
+let BeforeGlobalParalel = new Map();
+let BeforeGlobalSequential = new Map();
+let AfterGlobalParalel = new Map();
+let AfterGlobalSequential = new Map();
+let HOOKS = {
+  BeforeGlobalParalel,
+  BeforeGlobalSequential,
+  AfterGlobalParalel,
+  AfterGlobalSequential,
+};
 
 class RxStore {
   constructor({ ns = 'rxStore', initialState = {} } = {}) {
@@ -14,7 +30,9 @@ class RxStore {
     this._ns = ns;
     this._subject = new Subject();
     this._subject.subscribe((state) => (this._state = state));
-    // this._middlewares = [];
+    hooks.forEach(
+      (h) => (this[h] = HOOKS.hasOwnProperty(h) ? HOOKS[h] : new Map()),
+    );
   }
 
   get namespace() {
@@ -24,10 +42,6 @@ class RxStore {
   get state() {
     return this._state;
   }
-
-  // static addGlobalMiddleware(mw){
-  //   return addGlobalMiddleware(mw);
-  // }
 
   save() {
     localStorage.setItem(this._ns, JSON.stringify(this._state));
@@ -44,18 +58,16 @@ class RxStore {
     return this._subject;
   }
 
-  // get middlewares(){
-  //   return this._middlewares;
-  // }
-
-  // addMiddlewars(mw){
-  //   this._middlewares.push(mw);
-  // }
-
-  dispatch(action = (state) => state) {
-    // MIDDLEWARES.forEach((mw) => mw(this, action));
-    // this._middlewares.forEach((mw) => mw(this, action));
+  async dispatch(action = (state) => state) {
+    await promiseAllMap(BeforeGlobalParalel, this.state);
+    await promiseAllMap(this.BeforeLocalParalel, this.state);
+    await promiseSeqMap(BeforeGlobalSequential, this.state);
+    await promiseSeqMap(this.BeforeLocalSequential, this.state);
     this._subject.next(action(this.state));
+    await promiseAllMap(AfterGlobalParalel, this.state);
+    await promiseAllMap(this.AfterLocalParalel, this.state);
+    await promiseSeqMap(AfterGlobalSequential, this.state);
+    await promiseSeqMap(this.AfterLocalSequential, this.state);
   }
 
   connect(mapStoreToProps) {
