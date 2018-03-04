@@ -69,6 +69,7 @@ function TodoContainer({ todos, hash }) {
 }
 
 function mapStateToProps({ todos, hash }, props) {
+  // Work very well with reselect.
   let _todos = todos.sort((t1, t2) => t1.id < t2.id);
 
   if (hash === 'active') {

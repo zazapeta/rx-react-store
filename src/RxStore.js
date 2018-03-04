@@ -75,6 +75,20 @@ class RxStore {
     await promiseSeqMap(this.AfterLocalSequential, this.state, action, ...rest);
   }
 
+  // TODO: test it
+  createDispatcher(action) {
+    return (...args) => this.dispatch(action, ...args);
+  }
+
+  // TODO: test it and use it
+  createDispatchers(actions = {}) {
+    let dispatchers = {};
+    Object.keys(actions).forEach(
+      (action) => (dispatchers[action] = this.createDispatcher(action)),
+    );
+    return dispatchers;
+  }
+
   connect(mapStoreToProps) {
     return (BaseComponent) => {
       let thisStore = this;

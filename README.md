@@ -14,6 +14,8 @@ These instructions will get you a copy of the project up and running on your loc
 npm i @zazapeta/rx-react-store
 ```
 
+## TODO Using
+
 And in App.store.js
 
 ```

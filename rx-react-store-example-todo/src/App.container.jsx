@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import appStore from './App.store';
 
-import Todos from './Todo.container';
+import Todos from './Todo/Todo.container';
 
 import 'todomvc-app-css/index.css';
 
