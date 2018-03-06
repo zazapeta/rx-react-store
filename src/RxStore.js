@@ -88,7 +88,13 @@ class RxStore {
     );
     return dispatchers;
   }
-
+  /* IDEA TODO: Rename mapStoreToProps to getPropsDerivedFromState
+  // If no getPropsDerivedFromState is given , default behavior is to :
+  // use __subscriber = thisStore.subject.subscribe({
+            next: (state) => this.setState(getPropsDerivedFromState ? {} : state),
+          }); aka. get the whole store into the component's state
+          into the componentWillMount()
+  */
   connect(mapStoreToProps) {
     return (BaseComponent) => {
       let thisStore = this;
@@ -107,6 +113,12 @@ class RxStore {
         }
 
         render() {
+          /* let baseCompProps = {...this.props};
+          if (getPropsDerivedFromState){
+           baseCompProps = {...getPropsDerivedFromState(thisStore.state, this.props)}
+          }
+          {...baseCompProps}
+          */
           return (
             <BaseComponent
               {...this.props}
