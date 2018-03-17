@@ -2,7 +2,10 @@ RxStore:
   ☐ Readme
   ☐ Documentation
   ☐ Babel 7
-  
+  ☐ Update example with todo.dispatchers in place of todo.actions
+  ☐ Use of createDispatchers
+  ☐ Provide a tiny router as an example
+  ☐ Benchmarks
   
 
 Archive:
