@@ -19,10 +19,17 @@ export function handleTodoAdd(content) {
   return todoStore.dispatch(addTodo, todoContent);
 }
 
-export const handleTodoOpen = todoStore.createDispatcher(openTodo);
+let dispatchers = todoStore.createDispatchers({
+  openTodo,
+  closeTodo,
+  deleteTodo,
+  toggleTodo,
+});
 
-export const handleTodoClose = todoStore.createDispatcher(closeTodo);
+export const handleTodoOpen = dispatchers.openTodo;
 
-export const handleTodoDelete = todoStore.createDispatcher(deleteTodo);
+export const handleTodoClose = dispatchers.closeTodo;
 
-export const handleTodoToggle = todoStore.createDispatcher(toggleTodo);
+export const handleTodoDelete = dispatchers.deleteTodo;
+
+export const handleTodoToggle = dispatchers.toggleTodo;
