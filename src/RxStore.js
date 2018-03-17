@@ -29,6 +29,14 @@ function noop(state) {
 }
 
 class RxStore {
+  /**
+   * Create an RxStore instance
+   * @param {Object} opts
+   * @param {String} opts.ns The namespace of the store. Debuggin purpose. Default: 'rxStore'
+   * @param {Object} opts.initialState Initial state of the store. Default: {}
+   *
+   * @returns {RxStore} A new RxStore instance
+   */
   constructor({ ns = 'rxStore', initialState = {} } = {}) {
     this._state = initialState;
     this._ns = ns;
@@ -62,28 +70,35 @@ class RxStore {
     return this._subject;
   }
 
-  async dispatch(action = (state) => state, ...rest) {
-    let commonArgs = [this.state, action, ...rest];
+  /**
+   * Async Method
+   * Dispatch an reducer thought the store. This the unique manner to modify the store.
+   * @param {Function} reducer The reducer to be dispatched, that will modify the store.
+   * Reducer got the state of the store as first arguments and 'rest' next.
+   * @param {*} rest Rest of arguments passed to middlewares and to the reducer.
+   */
+  async dispatch(reducer = (state) => state, ...rest) {
+    let commonArgs = [this.state, reducer, ...rest];
     await promiseAllMap(BeforeGlobalParalel, ...commonArgs);
     await promiseAllMap(this.BeforeLocalParalel, ...commonArgs);
     await promiseSeqMap(BeforeGlobalSequential, ...commonArgs);
     await promiseSeqMap(this.BeforeLocalSequential, ...commonArgs);
-    this._subject.next(action(this.state, ...rest));
+    this._subject.next(reducer(this.state, ...rest));
     await promiseAllMap(AfterGlobalParalel, ...commonArgs);
     await promiseAllMap(this.AfterLocalParalel, ...commonArgs);
     await promiseSeqMap(AfterGlobalSequential, ...commonArgs);
     await promiseSeqMap(this.AfterLocalSequential, ...commonArgs);
   }
 
-  createDispatcher(action) {
-    return (...args) => this.dispatch(action, ...args);
+  createDispatcher(reducer) {
+    return (...args) => this.dispatch(reducer, ...args);
   }
 
-  createDispatchers(actions = {}) {
+  createDispatchers(reducers = {}) {
     let dispatchers = {};
-    Object.keys(actions).forEach(
-      (action) =>
-        (dispatchers[action] = this.createDispatcher(actions[action])),
+    Object.keys(reducers).forEach(
+      (reducer) =>
+        (dispatchers[reducer] = this.createDispatcher(reducers[reducer])),
     );
     return dispatchers;
   }
