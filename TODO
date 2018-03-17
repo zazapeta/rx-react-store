@@ -1,25 +1,15 @@
 RxStore:
   ☐ Readme
-  ☐ NPM publish
-  ☐ Tests
   ☐ Documentation
-  ☐ TodoMVC.com
-  ☐ Samples
   ☐ Babel 7
-  ☐ defaultMapStoreToProps -> (state, props) => ({ ...state, ...props }) 
-  Hooks/Middlewares: 
-    #(async || sync)(global || local)(before || after)
-    Thread :
-      ☐ Paralel
-      ☐ Linear
-    Scope : 
-      ☐ Local
-      ☐ Global
-    Moment :
-      ☐ before
-      ☐ after
   
   
 
 Archive:
+  ✔ NPM publish @done(18-03-17 14:21)
+  ✔ Tests @done(18-03-17 14:19)
+  ✔ TodoMVC.com @done(18-03-17 14:21)
+  ✔ Samples @done(18-03-17 14:20)
+  ✔ defaultMapStoreToProps -> (state, props) => ({ ...state, ...props }) @done(18-03-17 14:20)
+  ✔ Hooks/Middlewares @done(18-03-17 14:20)
   ✔ Git @done(18-02-27 09:18)
