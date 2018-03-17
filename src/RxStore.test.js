@@ -60,6 +60,39 @@ describe('RxStore constructor connect', () => {
   });
 });
 
+describe('RxStore createDispatcher', () => {
+  test('should return a dispatcher created from a reducer', async () => {
+    let ns = 'Users';
+    let initialState = {
+      title: '0',
+    };
+    let store = new RxStore({ ns, initialState });
+    let setTitle = (state, title) => ({ ...state, title });
+
+    let dispatchSetTitle = store.createDispatcher(setTitle);
+    await dispatchSetTitle('good');
+    expect(store.state).toEqual({ title: 'good' });
+  });
+});
+
+describe('RxStore createDispatchers', () => {
+  test('should return a map of dispatcher created from a map of reducer', async () => {
+    let ns = 'Users';
+    let initialState = {
+      title: '0',
+    };
+    let store = new RxStore({ ns, initialState });
+    let dispatchers = store.createDispatchers({
+      setTitle: (state, title) => ({ ...state, title }),
+      concatTitle: (state, title) => ({ ...state, title: state.title + title }),
+    });
+    await dispatchers.setTitle('hello');
+    await dispatchers.concatTitle(' world');
+
+    expect(store.state).toEqual({ title: 'hello world' });
+  });
+});
+
 describe('RxStore dispatch', () => {
   test('should change the state of connected comp after a dispatch', async () => {
     let ns = 'Users';
