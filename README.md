@@ -8,6 +8,8 @@ The purpose of this project is to familiarise myself to publish my first open so
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
+The full-documented is on this site [gitbooks/rx-react-store](https://zazapeta.gitbooks.io/rx-react-store/content/)
+
 ## Installing
 
 ```
