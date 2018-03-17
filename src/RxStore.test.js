@@ -1,10 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
 import setup from './setup_test';
 import RxStore from './RxStore';
 import { getComponentName } from './utils';
+import { wrap } from 'module';
 
 beforeAll(setup);
 
@@ -63,33 +64,55 @@ describe('RxStore dispatch', () => {
   test('should change the state of connected comp after a dispatch', async () => {
     let ns = 'Users';
     let initialState = {
-      users: [],
+      title: '0',
     };
     let store = new RxStore({ ns, initialState });
-    let Dumb = (props) => <div />;
-    let mapStateToProps = (state) => ({
-      users: state.users,
-      title: 'Props added in the fly',
-    });
-    let ConnectedDumb = store.connect(mapStateToProps)(Dumb);
-    let wrapper = shallow(<ConnectedDumb />);
 
-    expect(wrapper.props()).toEqual({
-      users: [],
-      title: 'Props added in the fly',
-    });
+    let Foo = () => <div />;
+    let ConnectedFoo = store.connect()(Foo);
+    let fooWrapper = mount(<ConnectedFoo />);
 
-    expect(wrapper.state()).toEqual(store.state);
+    let ConnectedBar = store.connect()(Foo);
+    let barWrapper = mount(<ConnectedBar />);
+
+    expect(
+      fooWrapper
+        .find(Foo)
+        .at(0)
+        .props(),
+    ).toEqual(initialState);
+    expect(
+      barWrapper
+        .find(Foo)
+        .at(0)
+        .props(),
+    ).toEqual(initialState);
 
     await store.dispatch((state) => ({
       ...state,
-      users: state.users.concat('Skywalker'),
+      title: '1',
     }));
 
-    expect(wrapper.state()).toEqual({
-      ...store.state,
-      users: ['Skywalker'],
-    });
+    let expectedState = {
+      title: '1',
+    };
+
+    expect(barWrapper.state()).toEqual(expectedState);
+    expect(fooWrapper.state()).toEqual(expectedState);
+    fooWrapper.update();
+    barWrapper.update();
+    expect(
+      barWrapper
+        .find(Foo)
+        .at(0)
+        .props(),
+    ).toEqual(expectedState);
+    expect(
+      fooWrapper
+        .find(Foo)
+        .at(0)
+        .props(),
+    ).toEqual(expectedState);
   });
 
   test('should call all hooks middlewares  with a dispatch', async () => {

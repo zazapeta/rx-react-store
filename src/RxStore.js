@@ -24,6 +24,10 @@ let HOOKS = {
   AfterGlobalSequential,
 };
 
+function noop(state) {
+  return state;
+}
+
 class RxStore {
   constructor({ ns = 'rxStore', initialState = {} } = {}) {
     this._state = initialState;
@@ -59,20 +63,16 @@ class RxStore {
   }
 
   async dispatch(action = (state) => state, ...rest) {
-    await promiseAllMap(BeforeGlobalParalel, this.state, action, ...rest);
-    await promiseAllMap(this.BeforeLocalParalel, this.state, action, ...rest);
-    await promiseSeqMap(BeforeGlobalSequential, this.state, action, ...rest);
-    await promiseSeqMap(
-      this.BeforeLocalSequential,
-      this.state,
-      action,
-      ...rest,
-    );
+    let commonArgs = [this.state, action, ...rest];
+    await promiseAllMap(BeforeGlobalParalel, ...commonArgs);
+    await promiseAllMap(this.BeforeLocalParalel, ...commonArgs);
+    await promiseSeqMap(BeforeGlobalSequential, ...commonArgs);
+    await promiseSeqMap(this.BeforeLocalSequential, ...commonArgs);
     this._subject.next(action(this.state, ...rest));
-    await promiseAllMap(AfterGlobalParalel, this.state, action, ...rest);
-    await promiseAllMap(this.AfterLocalParalel, this.state, action, ...rest);
-    await promiseSeqMap(AfterGlobalSequential, this.state, action, ...rest);
-    await promiseSeqMap(this.AfterLocalSequential, this.state, action, ...rest);
+    await promiseAllMap(AfterGlobalParalel, ...commonArgs);
+    await promiseAllMap(this.AfterLocalParalel, ...commonArgs);
+    await promiseSeqMap(AfterGlobalSequential, ...commonArgs);
+    await promiseSeqMap(this.AfterLocalSequential, ...commonArgs);
   }
 
   // TODO: test it
@@ -88,23 +88,21 @@ class RxStore {
     );
     return dispatchers;
   }
-  /* IDEA TODO: Rename mapStoreToProps to getPropsDerivedFromState
-  // If no getPropsDerivedFromState is given , default behavior is to :
-  // use __subscriber = thisStore.subject.subscribe({
-            next: (state) => this.setState(getPropsDerivedFromState ? {} : state),
-          }); aka. get the whole store into the component's state
-          into the componentWillMount()
-  */
-  connect(mapStoreToProps) {
+
+  connect(mapStateToProps = noop) {
     return (BaseComponent) => {
       let thisStore = this;
       let __subscriber;
       class ConnectedComponent extends React.Component {
         constructor(props) {
           super(props);
-          this.state = thisStore.state;
+          this.state = mapStateToProps(thisStore.state, props);
+        }
+
+        componentDidMount() {
           __subscriber = thisStore.subject.subscribe({
-            next: (state) => this.setState(state),
+            next: (nextState) =>
+              this.setState(mapStateToProps(nextState, this.props)),
           });
         }
 
@@ -113,20 +111,10 @@ class RxStore {
         }
 
         render() {
-          /* let baseCompProps = {...this.props};
-          if (getPropsDerivedFromState){
-           baseCompProps = {...getPropsDerivedFromState(thisStore.state, this.props)}
-          }
-          {...baseCompProps}
-          */
-          return (
-            <BaseComponent
-              {...this.props}
-              {...mapStoreToProps(this.state, this.props)}
-            />
-          );
+          return <BaseComponent {...this.props} {...this.state} />;
         }
       }
+
       ConnectedComponent.displayName = `[${
         thisStore.namespace
       }]rxConnected(${getComponentName(BaseComponent)})`;
