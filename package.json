@@ -1,6 +1,6 @@
 {
   "name": "@zazapeta/rx-react-store",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A tiny store powered by RxJs configured to work with React",
   "main": "lib/index.js",
   "scripts": {

@@ -9,7 +9,7 @@ const ns = 'App';
 
 let appStore = new RxStore({ ns, initialState });
 
-appStore.AfterGlobalParalel.set('InfoLogger', (state, action) =>
+appStore.AfterGlobalParallel.set('InfoLogger', (state, action) =>
   console.info(`[${action.name}] STATE:`, state),
 );
 

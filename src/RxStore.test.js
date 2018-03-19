@@ -150,12 +150,12 @@ describe('RxStore dispatch', () => {
 
   test('should call all hooks middlewares  with a dispatch', async () => {
     let hooks = [
-      'BeforeGlobalParalel', // Promise.all
-      'BeforeLocalParalel', // Promise.all
+      'BeforeGlobalParallel', // Promise.all
+      'BeforeLocalParallel', // Promise.all
       'BeforeGlobalSequential', // for in
       'BeforeLocalSequential', // for in
-      'AfterGlobalParalel',
-      'AfterLocalParalel',
+      'AfterGlobalParallel',
+      'AfterLocalParallel',
       'AfterGlobalSequential',
       'AfterLocalSequential',
     ];

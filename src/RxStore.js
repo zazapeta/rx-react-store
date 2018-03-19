@@ -3,24 +3,24 @@ import { Subject } from 'rxjs';
 import { getComponentName, promiseAllMap, promiseSeqMap } from './utils';
 
 let hooks = [
-  'BeforeGlobalParalel', // Promise.all
-  'BeforeLocalParalel', // Promise.all
+  'BeforeGlobalParallel', // Promise.all
+  'BeforeLocalParallel', // Promise.all
   'BeforeGlobalSequential', // for in
   'BeforeLocalSequential', // for in
-  'AfterGlobalParalel',
-  'AfterLocalParalel',
+  'AfterGlobalParallel',
+  'AfterLocalParallel',
   'AfterGlobalSequential',
   'AfterLocalSequential',
 ];
 
-let BeforeGlobalParalel = new Map();
+let BeforeGlobalParallel = new Map();
 let BeforeGlobalSequential = new Map();
-let AfterGlobalParalel = new Map();
+let AfterGlobalParallel = new Map();
 let AfterGlobalSequential = new Map();
 let HOOKS = {
-  BeforeGlobalParalel,
+  BeforeGlobalParallel,
   BeforeGlobalSequential,
-  AfterGlobalParalel,
+  AfterGlobalParallel,
   AfterGlobalSequential,
 };
 
@@ -79,13 +79,13 @@ class RxStore {
    */
   async dispatch(reducer = (state) => state, ...rest) {
     let commonArgs = [this.state, reducer, ...rest];
-    await promiseAllMap(BeforeGlobalParalel, ...commonArgs);
-    await promiseAllMap(this.BeforeLocalParalel, ...commonArgs);
+    await promiseAllMap(BeforeGlobalParallel, ...commonArgs);
+    await promiseAllMap(this.BeforeLocalParallel, ...commonArgs);
     await promiseSeqMap(BeforeGlobalSequential, ...commonArgs);
     await promiseSeqMap(this.BeforeLocalSequential, ...commonArgs);
     this._subject.next(reducer(this.state, ...rest));
-    await promiseAllMap(AfterGlobalParalel, ...commonArgs);
-    await promiseAllMap(this.AfterLocalParalel, ...commonArgs);
+    await promiseAllMap(AfterGlobalParallel, ...commonArgs);
+    await promiseAllMap(this.AfterLocalParallel, ...commonArgs);
     await promiseSeqMap(AfterGlobalSequential, ...commonArgs);
     await promiseSeqMap(this.AfterLocalSequential, ...commonArgs);
   }
