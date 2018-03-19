@@ -8,7 +8,7 @@ import {
   handleTodoDelete,
   handleTodoOpen,
   handleTodoToggle,
-} from './Todo.actions';
+} from './Todo.dispatchers';
 import TodoView from './Todo.view';
 
 function TodoContainer({ todos, hash }) {
