@@ -16,7 +16,7 @@ The full-documented is on this site [gitbooks/rx-react-store](https://zazapeta.g
 npm i @zazapeta/rx-react-store
 ```
 
-## TODO Using
+## Simple Usage
 
 And in App.store.js
 
