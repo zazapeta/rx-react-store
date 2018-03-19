@@ -2,17 +2,13 @@
 
 A tiny implementation of connected to gloabl/scoped store based on the awesome [RxJs](http://reactivex.io/rxjs/)'s implementation of the observer/observable pattern.
 
+Documentation : [gitbooks/rx-react-store](https://zazapeta.gitbooks.io/rx-react-store/content/)
+
 The purpose of this project is to familiarise myself to publish my first open source lib for npm based on github repo :)
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-
-The full-documented is on this site [gitbooks/rx-react-store](https://zazapeta.gitbooks.io/rx-react-store/content/)
 
 ## Installing
 
-```
+```bash
 npm i @zazapeta/rx-react-store
 ```
 
@@ -20,7 +16,7 @@ npm i @zazapeta/rx-react-store
 
 And in App.store.js
 
-```
+```js
 import RxStore from '@zazapeta/rx-react-store';
 
 // For debugging purpose
@@ -28,18 +24,18 @@ const ns = 'App';
 
 // InitialState
 const initialState = {
-  version : 1,
-  title : 'Dashboard'
+  version: 1,
+  title: 'Dashboard',
 };
 
 const appStore = new RxStore({ ns, initialState });
 
 appStore.BeforeGlobalParallel.set('Perf', (state, reducer) =>
-  console.time(`${reducer.name}`)
+  console.time(`${reducer.name}`),
 );
 
 appStore.AfterGlobalParallel.set('Perf', (state, reducer) =>
-  console.timeEnd(`${reducer.name}`)
+  console.timeEnd(`${reducer.name}`),
 );
 
 appStore.AfterGlobalParallel.set('InfoLogger', (state, reducer) =>
@@ -51,7 +47,7 @@ export default appStore;
 
 And in App.container.jsx
 
-```
+```js
 import React, { Component } from 'react';
 
 import appStore from './App.store';
@@ -60,7 +56,7 @@ import appStore from './App.store';
 const updateTitle = (title) => (state) => ({ ...state, title });
 
 // reducer dispatcher
-function handleInput(e){
+function handleInput(e) {
   appStore.dispatch(updateTitle(e.target.value));
 }
 
@@ -73,21 +69,22 @@ class App extends Component {
             {this.props.title} - {this.props.version}
           </h1>
         </header>
-        <input
-          type="text"
-          onChange={handleInput}
-        />
+        <input type="text" onChange={handleInput} />
       </div>
     );
   }
 }
 
-function mapStateToProps(state, props){
+function mapStateToProps(state, props) {
   return state;
 }
 
 export default appStore.connect(mapStateToProps)(App);
 ```
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ## Contributing
 
@@ -104,7 +101,7 @@ Hard use of (Git Flow)[https://danielkummer.github.io/git-flow-cheatsheet/].
 • npm
 • git
 
-```
+```bash
 git clone git@github.com:zazapeta/rx-react-store.git
 cd rx-react-store
 npm i
