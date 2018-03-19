@@ -34,16 +34,16 @@ const initialState = {
 
 const appStore = new RxStore({ ns, initialState });
 
-appStore.BeforeGlobalParallel.set('Perf', (state, action) =>
-  console.time(`${action.name}`)
+appStore.BeforeGlobalParallel.set('Perf', (state, reducer) =>
+  console.time(`${reducer.name}`)
 );
 
-appStore.AfterGlobalParallel.set('Perf', (state, action) =>
-  console.timeEnd(`${action.name}`)
+appStore.AfterGlobalParallel.set('Perf', (state, reducer) =>
+  console.timeEnd(`${reducer.name}`)
 );
 
-appStore.AfterGlobalParallel.set('InfoLogger', (state, action) =>
-  console.info(`[${action.name}] STATE:`, state),
+appStore.AfterGlobalParallel.set('InfoLogger', (state, reducer) =>
+  console.info(`[${reducer.name}] STATE:`, state),
 );
 
 export default appStore;
@@ -59,7 +59,7 @@ import appStore from './App.store';
 // reducer
 const updateTitle = (title) => (state) => ({ ...state, title });
 
-// action dispatcher
+// reducer dispatcher
 function handleInput(e){
   appStore.dispatch(updateTitle(e.target.value));
 }

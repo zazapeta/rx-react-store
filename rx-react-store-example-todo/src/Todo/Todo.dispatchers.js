@@ -8,7 +8,7 @@ import {
 } from './Todo.reducers';
 import todoStore from './Todo.store';
 
-// ACTION DISPATCHER
+// REDUCER DISPATCHER
 export const handleTodoChange = todoStore.createDispatcher(changeTodo); // equivalent at (todo) =>  todoStore.dispatch(changeTodo, todo);
 
 export function handleTodoAdd(content) {

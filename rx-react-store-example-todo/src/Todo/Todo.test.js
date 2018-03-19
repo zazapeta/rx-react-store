@@ -8,11 +8,11 @@ import {
   openTodo,
   toggleTodo,
 } from './Todo.reducers';
-import { handleTodoAdd } from './Todo.actions';
+import { handleTodoAdd } from './Todo.dispatchers';
 import todoStore from './Todo.store';
 
-const expectState = (state) => (action) => (...args) => (expectedState) =>
-  expect(action(state, ...args)).toEqual(
+const expectState = (state) => (reducer) => (...args) => (expectedState) =>
+  expect(reducer(state, ...args)).toEqual(
     expect.objectContaining(expectedState),
   );
 
@@ -114,7 +114,7 @@ describe('Reducers', () => {
   });
 });
 
-describe('Action dispatcher', () => {
+describe('Reducer dispatcher', () => {
   // we have to test only handleTodoAdd as others are just dispatcher
   test('handleTodoAdd - should trimm the content and not dispatch if content is empty', async () => {
     let oldDispatch = todoStore.dispatch;

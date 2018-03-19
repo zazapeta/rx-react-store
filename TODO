@@ -2,13 +2,13 @@ RxStore:
   ☐ Readme
   ☐ Documentation
   ☐ Babel 7
-  ☐ Update example with todo.dispatchers in place of todo.actions
   ☐ Use of createDispatchers
   ☐ Provide a tiny router as an example
   ☐ Benchmarks
   
 
 Archive:
+  ✔ Update example with todo.dispatchers in place of todo.actions @done(18-03-19 13:46)
   ✔ NPM publish @done(18-03-17 14:21)
   ✔ Tests @done(18-03-17 14:19)
   ✔ TodoMVC.com @done(18-03-17 14:21)
