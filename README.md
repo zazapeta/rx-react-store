@@ -1,6 +1,6 @@
 # RX-REACT-STORE
 
-A tiny implementation of connected to gloabl/scoped store based on the awesome [RxJs](http://reactivex.io/rxjs/)'s implementation of the observer/observable pattern.
+A tiny implementation of connected to global/scoped store based on the awesome [RxJs](http://reactivex.io/rxjs/)'s implementation of the observer/observable pattern.
 
 Documentation : [gitbooks/rx-react-store](https://zazapeta.gitbooks.io/rx-react-store/content/)
 
