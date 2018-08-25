@@ -2,7 +2,7 @@
 
 A tiny implementation of connected to global/scoped store based on the awesome [RxJs](http://reactivex.io/rxjs/)'s implementation of the observer/observable pattern.
 
-Documentation : [gitbooks/rx-react-store](https://zazapeta.gitbooks.io/rx-react-store/content/)
+Documentation : [gitbooks/rx-react-store](https://zazapeta.gitbook.io/rx-react-store/)
 
 The purpose of this project is to familiarise myself to publish my first open source lib for npm based on github repo :)
 
